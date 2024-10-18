@@ -11,3 +11,6 @@ HomeScreen<br>
 <br>
 Depositing<br>
 <a href="https://ibb.co/bLKbXLk"><img src="https://i.ibb.co/BjCnBj9/Screenshot-2024-10-18-091305.png" alt="Screenshot-2024-10-18-091305" border="0"></a>
+<br>
+Making A Payment<br>
+<a href="https://ibb.co/D7FbFJL"><img src="https://i.ibb.co/tb6h6G3/Screenshot-2024-10-18-091930.png" alt="Screenshot-2024-10-18-091930" border="0"></a>
