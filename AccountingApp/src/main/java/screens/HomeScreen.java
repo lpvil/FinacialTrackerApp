@@ -15,16 +15,16 @@ public class HomeScreen {
 
         switch (answer){
             case "D": case "d":
-                //Deposit();
+                Deposit.Makedeposit();
                 break;
             case "P": case "p":
-                //Payment();
+                Payment.MakePayment();
                 break;
             case "L": case "l":
-                //Ledger
+                Ledger.ledger();
                 break;
             case "E": case "e": case "o": case "O": case "0":
-                // exit()
+                Exit.kill();
                 break;
             default:
                 System.out.println("Not a choice!");
