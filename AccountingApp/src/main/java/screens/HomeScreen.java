@@ -8,6 +8,7 @@ public class HomeScreen {
         System.out.println("Deposit(D), Make a Payment(P), Display ledger(L), Exit(E) ");
         String answer = HelperMethods.getUserAnswer("Your choice: ");
         handleSwitch(answer);
+
     }
 
     public static void handleSwitch(String answer){
