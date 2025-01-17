@@ -98,6 +98,8 @@ public class main {
             preparedStatement.setString(3, dscrpt);
             preparedStatement.setString(4, vendor);
             preparedStatement.setDouble(5, amount);
+            preparedStatement.executeUpdate();
+
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -114,10 +116,19 @@ public class main {
         String vendor = sc.nextLine();
         System.out.println("give brief desciption of payment: ");
         String dscrpt = sc.nextLine();
-        // create a transaction string with the input
-        String transaction = date.toString() + "|" + time.toString() + "|" + dscrpt + "|" + vendor + "|" + amount;
-        // call the method to add the transaction
-        addTransaction(transaction);
+
+        try ( PreparedStatement preparedStatement = connection.prepareStatement("insert into transactions (date, time, description, vendor, amount) values(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)
+        ) {
+            preparedStatement.setDate(1, Date.valueOf(date));
+            preparedStatement.setTime(2, Time.valueOf(time));
+            preparedStatement.setString(3, dscrpt);
+            preparedStatement.setString(4, vendor);
+            preparedStatement.setDouble(5, amount);
+            preparedStatement.executeUpdate();
+
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static String showLedger() {
@@ -150,29 +161,73 @@ public class main {
     }
 
     public static void displayPayments() {
-        try {
-            FileReader freader = new FileReader("src\\transactions.csv");
-            BufferedReader reader = new BufferedReader(freader);
+        try ( PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM transactions WHERE amount < 0");
+              ResultSet rs = preparedStatement.executeQuery()
+        ) {
+            while(rs.next()) {
+                System.out.print(rs.getDate("date"));
+                System.out.print(" ");
+                System.out.print(rs.getTime("time"));
+                System.out.print(" ");
+                System.out.print(rs.getString("description"));
+                System.out.print(" ");
+                System.out.print(rs.getString("vendor"));
+                System.out.print(" ");
+                System.out.print(rs.getDouble("amount"));
+                System.out.print(" ");
+                System.out.println();
+            }
 
-        } catch (IOException e) {
+
+        } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public static void displayDesposits() {
+        try ( PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM transactions WHERE amount > 0");
+              ResultSet rs = preparedStatement.executeQuery()
+        ) {
+            while(rs.next()) {
+                System.out.print(rs.getDate("date"));
+                System.out.print(" ");
+                System.out.print(rs.getTime("time"));
+                System.out.print(" ");
+                System.out.print(rs.getString("description"));
+                System.out.print(" ");
+                System.out.print(rs.getString("vendor"));
+                System.out.print(" ");
+                System.out.print(rs.getDouble("amount"));
+                System.out.print(" ");
+                System.out.println();
+            }
 
+
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void displayAllTransactions() {
-        try {
-            FileReader fr = new FileReader("src\\transactions.csv");
-            BufferedReader br = new BufferedReader(fr);
-            String file1;
-            while ((file1 = br.readLine()) != null) {
-                String[] fileInfo = file1.split(Pattern.quote("|"));
-                System.out.println(file1);
+        try ( PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM transactions");
+              ResultSet rs = preparedStatement.executeQuery()
+        ) {
+            while(rs.next()) {
+                System.out.print(rs.getDate("date"));
+                System.out.print(" ");
+                System.out.print(rs.getTime("time"));
+                System.out.print(" ");
+                System.out.print(rs.getString("description"));
+                System.out.print(" ");
+                System.out.print(rs.getString("vendor"));
+                System.out.print(" ");
+                System.out.print(rs.getDouble("amount"));
+                System.out.print(" ");
+                System.out.println();
             }
-        } catch (Exception e) {
+
+
+        } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
     }
